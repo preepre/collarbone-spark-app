@@ -7,7 +7,9 @@ import java.util.Map;
 
 import com.libertymutual.goforcode.spark.app.models.Apartment;
 import com.libertymutual.goforcode.spark.app.utilities.MustacheRenderer;
+import com.libertymutual.goforcode.spark.app.utilities.VelocityTemplateEngine;
 
+import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 import spark.Route;
@@ -18,15 +20,20 @@ public class HomeController {
 		List<Apartment> apartments = Apartment.findAll();
 		
 		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("noUser", req.session().attribute("currentUser") == null);		
 		model.put("apartments", apartments);
 		model.put("currentUser", req.session().attribute("currentUser"));
-		model.put("noUser", req.session().attribute("currentUser") == null);		
 		
 		//delete below line and create your own index
-		return MustacheRenderer.getInstance()
-				.render("home/index.html", model);
+		
+		return new VelocityTemplateEngine().render(new ModelAndView(model, "/templates/home/indexVelocity.html"));
+	};
 
 		
-	};	
+//		return MustacheRenderer.getInstance()
+//				.render("home/index.html", model);
+
+		
+	
 
 }
