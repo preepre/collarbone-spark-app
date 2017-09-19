@@ -6,6 +6,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import com.libertymutual.goforcode.spark.app.controllers.ApartmentApiController;
 import com.libertymutual.goforcode.spark.app.controllers.ApartmentController;
+import com.libertymutual.goforcode.spark.app.controllers.UserController;
 import com.libertymutual.goforcode.spark.app.controllers.HomeController;
 import com.libertymutual.goforcode.spark.app.controllers.SessionController;
 import com.libertymutual.goforcode.spark.app.models.Apartment;
@@ -39,11 +40,15 @@ public class Application {
 
 		post("/login", 			SessionController.create);
 		
+		get("/signup", 			UserController.newForm);
+		
+//		post("/users", 			UserController.create);
+		
 		path("/api", () -> {
 			
 			get("/apartments/:id", 	ApartmentApiController.details);
 			
-			post("/apartments", 	ApartmentApiController.create);
+			post("/apartments", 	ApartmentApiController.create);			
 			
 		});
 	}
