@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>My listings</title>
+<style>
+body {
+		background-color: #f7e5ff;
+}
+</style>
+</head>
+<body>
+{{> /common/_navigation }}	
+
+<h2>My listings</h2>
+
+{{#currentUser}}
+	
+	{{#apartments}}
+		<div>
+			<a href="/apartments/{{ id }}">{{ address }}</a>
+		</div>
+	{{/apartments}}
+
+{{/currentUser}}
+</body>
+</html>

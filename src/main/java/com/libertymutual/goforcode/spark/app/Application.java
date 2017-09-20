@@ -25,23 +25,38 @@ public class Application {
 
 		try (AutocloseableDb db = new AutocloseableDb()) {
 			User.deleteAll();
-			new User("a@a.com", encryptedPassword, "Anya", "Marie").saveIt();
-
+			User anya = new User("a@a.com", encryptedPassword, "Anya", "Marie");
+			anya.saveIt();
+			
+			
 			Apartment.deleteAll();
-			new Apartment(6200, 1, 0, 350, "123 Main St", "San Francisco", "CA", "95125").saveIt();
-			new Apartment(1400, 5, 6, 4000, "123 Cowboy Way", "Houston", "CA", "77096").saveIt();
+			Apartment a = new Apartment(6200, 1, 0, 350,	 "123 Main St", "San Francisco", "CA", "95125", true);
+			a.saveIt();
+			anya.add(a);
+			
+			Apartment b = new Apartment(1400, 5, 6, 4000, "123 Cowboy Way", "Houston", "CA", "77096", true);
+			b.saveIt();
+			anya.add(b);
+			
 		}
 
 		path("/apartments", () -> {
 
 			before("/new", SecurityFilters.isAuthenticated);
 			get("/new", ApartmentController.newForm);
-
+			
+			before("/mine", SecurityFilters.isAuthenticated);
+			get("/mine", ApartmentController.index);
+			
 			get("/:id", ApartmentController.details);
 			
 			
 			before("", SecurityFilters.isAuthenticated);
 			post("", 	ApartmentController.create);
+			
+			before("", SecurityFilters.isAuthenticated);
+			post("/deactivations", ApartmentController.deactivate);
+			
 
 		});
 

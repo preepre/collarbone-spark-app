@@ -9,21 +9,28 @@ body {
 </style>
 </head>
 <body>
-{{#noUser}}
-<a href="/login">Login</a>
-<a href="/signup">Sign up</a>
-{{/noUser}}
+{{> /common/_navigation }}	
 
-{{#currentUser}}
-	Welcome, {{ currentUser.firstName }}  ( {{currentUser.email}} )
-{{/currentUser}}
-
+<h1>Apartments!</h1>
+<div>
 {{#apartments}}
 	<div>
 		<a href="apartments/{{ id }}">{{ address }}</a>
+		
+		{{#currentUser}}
+		
+		{{#isActive}}
+		<form action="/deactivate" method="post">
+			<button>deactivate</button>
+		</form>
+		<br>
+		{{/isActive}}
+		
+		
+		{{/currentUser}}
 	</div>
 {{/apartments}}
-
+</div>
 
 </body>
 </html>

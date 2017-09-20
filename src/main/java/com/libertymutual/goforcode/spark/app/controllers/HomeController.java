@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.libertymutual.goforcode.spark.app.models.Apartment;
 import com.libertymutual.goforcode.spark.app.utilities.AutocloseableDb;
+import com.libertymutual.goforcode.spark.app.utilities.MustacheRenderer;
 import com.libertymutual.goforcode.spark.app.utilities.VelocityTemplateEngine;
 
 import spark.ModelAndView;
@@ -27,7 +28,10 @@ public class HomeController {
 
 			// delete below line and create your own index
 
-			return new VelocityTemplateEngine().render(new ModelAndView(model, "/templates/home/indexVelocity.html"));
+//			return new VelocityTemplateEngine().render(new ModelAndView(model, "/templates/home/indexVelocity.html"));
+		
+			 return MustacheRenderer.getInstance()
+			 .render("home/index.html", model);
 		}
 	};
 

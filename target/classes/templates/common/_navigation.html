@@ -1,0 +1,20 @@
+<div>
+{{#noUser}}
+<a href="/login">Login</a>
+<a href="/signup">Sign up</a>
+{{/noUser}}
+
+{{#currentUser}}
+	Welcome, {{ currentUser.firstName }}  ( {{currentUser.email}} )
+<br>
+<a href="/apartments/mine">Your listings</a>
+<br>
+<a href="/apartments/new">Add a listing</a> 
+
+	<form method="post" action="/logout">
+	<button>Logout</button>
+	</form>
+	
+{{/currentUser}}
+
+</div>
