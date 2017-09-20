@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Create an apartment</title>
+<style>
+body {
+	background-color: #f7e5ff;
+}
+</style>
+</head>
+<body>
+
+<h2>Creat an apartment</h2>
+
+	<form method="post" action="/apartments">
+		<input type="number" required name="rent" placeholder="Rent">
+		<input type="number" required name="number_of_bedrooms" placeholder="Number of bedrooms">
+		<input type="number" required name="number_of_bathrooms" step="0.5" placeholder="Number of bathrooms">		
+		<input type="number" required name="square_footage" placeholder="Sq. feet">
+		<input type="text" required name="address" placeholder="address">
+		<input type="text" required name="city" placeholder="city">
+		<input type="text" required name="state" placeholder="state">
+		<input type="text" required name="zip_code" placeholder="zip_code">
+		
+		<button>Create</button>
+	</form>
+
+</body>
+</html>

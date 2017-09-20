@@ -9,6 +9,10 @@ body {
 </style>
 </head>
 <body>
+<a href="/apartments/new">Create apartment</a> 
+
+<br>
+
 #if ( $noUser )
 <a href="/login">Login</a>
 <br>
@@ -17,6 +21,11 @@ body {
 
 #if ( $currentUser )
 	Welcome, $currentUser.firstName  ($currentUser.email)
+	<br>
+	<form method="post" action="/logout">
+	<button>Logout</button>
+	</form>
+	
 #end
 
 #if ( $apartments ) 
@@ -33,7 +42,6 @@ body {
     #end
 </div>
 #end
-
 
 
 </body>
