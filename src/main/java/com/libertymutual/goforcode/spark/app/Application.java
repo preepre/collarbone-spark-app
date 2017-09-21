@@ -55,7 +55,7 @@ public class Application {
 			post("", 	ApartmentController.create);
 			
 			before("", SecurityFilters.isAuthenticated);
-			post("/deactivations", ApartmentController.deactivate);
+			post("/apartments/:id", ApartmentController.deactivate);
 			
 
 		});

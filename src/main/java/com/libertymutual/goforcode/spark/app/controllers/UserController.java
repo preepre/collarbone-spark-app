@@ -1,5 +1,6 @@
 package com.libertymutual.goforcode.spark.app.controllers;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.javalite.common.JsonHelper;
@@ -19,8 +20,12 @@ public class UserController {
 
 	
 	public static final Route newForm = (Request req, Response res) -> {
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("currentUser", req.session().attribute("currentUser"));
+		model.put("noUser", req.session().attribute("currentUser") == null);
 
-		return MustacheRenderer.getInstance().render("users/signup.html", null);
+		return MustacheRenderer.getInstance().render("users/signup.html", model);
 
 	};
 	

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 <title>Your next home!</title>
 <style>
 body {
@@ -10,7 +11,7 @@ body {
 </style>
 </head>
 <body>
-{{> /common/_navigation }}	
+{{> /common/_navigation }}		
 
 <h1>Apartment</h1>
 
@@ -27,8 +28,19 @@ body {
   <dt>Square footage</dt>
   <dd>{{ apartment.squareFootage }}</dd>
 </dl>
-
-
+<div>
+		{{#currentUser}}
+		
+			{{#apartment.isActive}}
+			<form action="/deactivate" method="post">
+				<button>deactivate</button>
+			</form>
+			<br>
+			{{/apartment.isActive}}
+		
+		
+		{{/currentUser}}
+</div>
 
 </body>
 </html>

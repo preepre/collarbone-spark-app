@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 <title>Welcome to your homepage</title>
 <style>
 body {
@@ -16,18 +17,6 @@ body {
 {{#apartments}}
 	<div>
 		<a href="apartments/{{ id }}">{{ address }}</a>
-		
-		{{#currentUser}}
-		
-		{{#isActive}}
-		<form action="/deactivate" method="post">
-			<button>deactivate</button>
-		</form>
-		<br>
-		{{/isActive}}
-		
-		
-		{{/currentUser}}
 	</div>
 {{/apartments}}
 </div>
