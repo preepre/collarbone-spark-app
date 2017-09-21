@@ -31,13 +31,26 @@ body {
 <div>
 		{{#currentUser}}
 		
+		
+		{{#isOwner}}	
+		
 			{{#apartment.isActive}}
-			<form action="/deactivate" method="post">
+			<form action="/apartments/{{ apartment.id }}/deactivations" method="post">
 				<button>deactivate</button>
 			</form>
 			<br>
 			{{/apartment.isActive}}
-		
+			
+			
+			{{^apartment.isActive}}
+			<form action="/apartments/{{ apartment.id }}/activations" method="post">
+				<button>activate</button>
+			</form>
+			<br>
+			{{/apartment.isActive}}
+			
+		{{/isOwner}}
+			
 		
 		{{/currentUser}}
 </div>

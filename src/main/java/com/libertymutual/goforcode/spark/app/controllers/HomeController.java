@@ -1,5 +1,6 @@
 package com.libertymutual.goforcode.spark.app.controllers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,22 @@ public class HomeController {
 			model.put("apartments", apartments);
 			model.put("currentUser", req.session().attribute("currentUser"));
 
+			List<Apartment> activeApartments = new ArrayList<>();
+			List<Apartment> inactiveApartments = new ArrayList<>();
+			
+			for(Apartment a : apartments) {
+				if(a.getIsActive() ) {
+					activeApartments.add(a);
+				}
+				else {
+					inactiveApartments.add(a);
+				}
+			}
+
+			model.put("activeApartments", activeApartments);
+			model.put("inactiveApartments", inactiveApartments);
+			
+			
 			// delete below line and create your own index
 
 //			return new VelocityTemplateEngine().render(new ModelAndView(model, "/templates/home/indexVelocity.html"));

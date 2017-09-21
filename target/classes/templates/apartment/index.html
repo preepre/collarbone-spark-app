@@ -12,15 +12,23 @@ body {
 <body>
 {{> /common/_navigation }}	
 
-<h2>My listings</h2>
+<h1>My listings</h1>
 
 {{#currentUser}}
-	
-	{{#apartments}}
+
+	<h2>Active Listings</h2>
+	{{#activeApartments}}
 		<div>
 			<a href="/apartments/{{ id }}">{{ address }}</a>
-		</div>
-	{{/apartments}}
+		</div>		
+	{{/activeApartments}}
+	
+	<h2>Inactive Listings</h2>
+	{{#inactiveApartments}}
+		<div>
+			<a href="/apartments/{{ id }}">{{ address }}</a>
+		</div>		
+	{{/inactiveApartments}}
 
 {{/currentUser}}
 </body>

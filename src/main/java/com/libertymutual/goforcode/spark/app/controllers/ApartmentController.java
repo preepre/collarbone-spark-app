@@ -1,9 +1,11 @@
 package com.libertymutual.goforcode.spark.app.controllers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.javalite.activejdbc.Model;
 import org.mindrot.jbcrypt.BCrypt;
 
 import com.libertymutual.goforcode.spark.app.models.Apartment;
@@ -22,12 +24,25 @@ public class ApartmentController {
 	public static final Route details = (Request req, Response res) -> {
 
 		try (AutocloseableDb db = new AutocloseableDb()) {
-			Apartment apartment = Apartment.findById(Integer.parseInt(req.params("id")));
-
+			Apartment apartment = Apartment.findById(Integer.parseInt(req.params("id")));			
+			User currentUser = req.session().attribute("currentUser");
+		
+			long userId = apartment.getUserId();
+								
+			boolean isOwner;			
+			
 			Map<String, Object> model = new HashMap<String, Object>();
 			model.put("apartment", apartment);
-			model.put("currentUser", req.session().attribute("currentUser"));
+			model.put("currentUser", currentUser);
 			model.put("noUser", req.session().attribute("currentUser") == null);
+			
+			if(currentUser != null && userId == (long) currentUser.getId()) {
+				isOwner = true;
+			}
+			else {
+				isOwner = false;
+			}
+			model.put("isOwner", isOwner);
 			
 			return MustacheRenderer.getInstance().render("apartment/details.html", model);
 		}
@@ -41,14 +56,20 @@ public class ApartmentController {
 	public static final Route create = (Request req, Response res) -> {
 
 		try (AutocloseableDb db = new AutocloseableDb()) {
-
+			
+			User currentUser = req.session().attribute("currentUser");
+			long id = (long) currentUser.getId();
+			
 			Apartment apartment = new Apartment(
 
 					Integer.parseInt(req.queryParams("rent")), Integer.parseInt(req.queryParams("number_of_bedrooms")),
 					Double.parseDouble(req.queryParams("number_of_bathrooms")),
 					Integer.parseInt(req.queryParams("square_footage")), req.queryParams("address"),
-					req.queryParams("city"), req.queryParams("state"), req.queryParams("zip_code"));
+					req.queryParams("city"), req.queryParams("state"), req.queryParams("zip_code"), 
+					Boolean.parseBoolean(req.queryParams("is_active")));
 
+			currentUser.add(apartment);
+			
 			apartment.saveIt();
 			res.redirect("/");
 			return "";
@@ -59,31 +80,88 @@ public class ApartmentController {
 		User currentUser = req.session().attribute("currentUser");
 		long id = (long) currentUser.getId();
 
+		
 		try (AutocloseableDb db = new AutocloseableDb()) {
 
 			List<Apartment> apartments = Apartment.where("user_id = ?", id);
 			Map<String, Object> model = new HashMap<String, Object>();
 			model.put("apartments", apartments);
 			model.put("currentUser", req.session().attribute("currentUser"));
+			
+//			List<Apartment> activeApartments = Apartment.where("is_active", true);
+//			List<Apartment> inactiveApartments = Apartment.where("is_active", false);			
+//			
+//			model.put("activeApartments", activeApartments);
+//			model.put("inactiveApartments", inactiveApartments);
+			
+			List<Apartment> activeApartments = new ArrayList<>();
+			List<Apartment> inactiveApartments = new ArrayList<>();
+			
+			for(Apartment a : apartments) {
+				if(a.getIsActive() ) {
+					activeApartments.add(a);
+				}
+				else {
+					inactiveApartments.add(a);
+				}
+			}
+
+			model.put("activeApartments", activeApartments);
+			model.put("inactiveApartments", inactiveApartments);
+			
 			return MustacheRenderer.getInstance().render("apartment/index.html", model);
+		}
+		
+		
+	};
+
+	public static final Route deactivations = (Request req, Response res) -> {
+
+		try (AutocloseableDb db = new AutocloseableDb()) {
+			
+			User currentUser = req.session().attribute("currentUser");
+			long currentUserId = (long) currentUser.getId();
+			
+			Apartment apartment = Apartment.findById(Integer.parseInt(req.params("id")));
+			
+			System.out.println("I made it this far!");
+			
+			System.out.println("Apt id = " + apartment.getId() 
+			+ "  Is active? " + apartment.getIsActive());
+			
+			apartment.setIsActive(false);
+			apartment.saveIt();
+			
+			long id = (long) apartment.getId();
+			
+			res.redirect("/apartments/" + id);
+					
+			return "/";
 		}
 	};
 
-	public static Route deactivate = (Request req, Response res) -> {
+	public static Route activations= (Request req, Response res) -> {
 
-//		Apartment apartment = req.session().attribute("apartment");
-		Apartment apartment = Apartment.findById(Integer.parseInt(req.params("id")));
+		//Apartment apartment = Apartment.findById(Integer.parseInt(req.params("id")));		
 		
-//		long id = (long) apartment.getId();
-
 		try (AutocloseableDb db = new AutocloseableDb()) {
-
-			// get the apartment at the current id and set boolean to false
-			apartment.setIsActive(false);
+			
+			Apartment apartment = Apartment.findById(Integer.parseInt(req.params("id")));
+			
+			System.out.println("I made it this far!");
+			
+//			System.out.println("Apt id = " + apartment.getId() 
+//			+ "  Is active? " + apartment.getIsActive() + 
+//			"  User_id who listed: " + apartment.get);
+			
+			apartment.setIsActive(true);
 			apartment.saveIt();
-
-			res.redirect("/apartments/:id");
-			return "";
+			
+			long id = (long) apartment.getId();
+			
+			res.redirect("/apartments/" + id);
+					
+			return "/";
 		}
 	};
 }

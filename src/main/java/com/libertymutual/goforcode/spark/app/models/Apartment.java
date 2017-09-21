@@ -1,25 +1,27 @@
 package com.libertymutual.goforcode.spark.app.models;
 
+import java.util.List;
+
 import org.javalite.activejdbc.Model;
 
 public class Apartment extends Model {
 	
 	public Apartment() {}
 
-	public Apartment(int rent, int numberOfBedrooms, 
-			double numberOfBathrooms, int squareFootage, 
-			String address, String city, String state, String zip) {
-
-		setRent(rent);
-		setNumberOfBedrooms(numberOfBedrooms);
-		setNumberOfBathrooms(numberOfBathrooms);
-		setSquareFootage(squareFootage);
-		setAddress(address);
-		setCity(city);
-		setState(state);
-		setZip(zip);
-		
-	}
+//	public Apartment(int rent, int numberOfBedrooms, 
+//			double numberOfBathrooms, int squareFootage, 
+//			String address, String city, String state, String zip) {
+//
+//		setRent(rent);
+//		setNumberOfBedrooms(numberOfBedrooms);
+//		setNumberOfBathrooms(numberOfBathrooms);
+//		setSquareFootage(squareFootage);
+//		setAddress(address);
+//		setCity(city);
+//		setState(state);
+//		setZip(zip);
+//		
+//	}
 	
 	public Apartment(int rent, int numberOfBedrooms, 
 			double numberOfBathrooms, int squareFootage, 
@@ -34,6 +36,7 @@ public class Apartment extends Model {
 		setCity(city);
 		setState(state);
 		setZip(zip);
+//		setUserId(userId);
 		setIsActive(isActive);
 		
 		
@@ -102,6 +105,14 @@ public class Apartment extends Model {
 	public void setRent(int rent) {
 		set("rent", rent);
 	}
+
+	public Long getUserId() {
+		return getLong("user_id");
+	}
+//	
+//	public void setUserId(long userId) {
+//		set("user_id", userId);
+//	}
 	
 	public boolean getIsActive() {
 		return getBoolean("is_active");
@@ -110,5 +121,6 @@ public class Apartment extends Model {
 	public void setIsActive(boolean isActive) {
 		set("is_active", isActive);
 	}
+	
 	
 }
