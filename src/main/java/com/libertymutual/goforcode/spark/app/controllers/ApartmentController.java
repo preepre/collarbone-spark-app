@@ -9,6 +9,7 @@ import org.javalite.activejdbc.Model;
 import org.mindrot.jbcrypt.BCrypt;
 
 import com.libertymutual.goforcode.spark.app.models.Apartment;
+import com.libertymutual.goforcode.spark.app.models.ApartmentsUsers;
 import com.libertymutual.goforcode.spark.app.models.User;
 import com.libertymutual.goforcode.spark.app.utilities.AutocloseableDb;
 import com.libertymutual.goforcode.spark.app.utilities.MustacheRenderer;
@@ -123,12 +124,7 @@ public class ApartmentController {
 			long currentUserId = (long) currentUser.getId();
 			
 			Apartment apartment = Apartment.findById(Integer.parseInt(req.params("id")));
-			
-			System.out.println("I made it this far!");
-			
-			System.out.println("Apt id = " + apartment.getId() 
-			+ "  Is active? " + apartment.getIsActive());
-			
+	
 			apartment.setIsActive(false);
 			apartment.saveIt();
 			
@@ -140,20 +136,12 @@ public class ApartmentController {
 		}
 	};
 
-	public static Route activations= (Request req, Response res) -> {
+	public static Route activations = (Request req, Response res) -> {
 
-		//Apartment apartment = Apartment.findById(Integer.parseInt(req.params("id")));		
-		
 		try (AutocloseableDb db = new AutocloseableDb()) {
 			
 			Apartment apartment = Apartment.findById(Integer.parseInt(req.params("id")));
-			
-			System.out.println("I made it this far!");
-			
-//			System.out.println("Apt id = " + apartment.getId() 
-//			+ "  Is active? " + apartment.getIsActive() + 
-//			"  User_id who listed: " + apartment.get);
-			
+						
 			apartment.setIsActive(true);
 			apartment.saveIt();
 			
@@ -163,5 +151,31 @@ public class ApartmentController {
 					
 			return "/";
 		}
+	};
+
+	public static final Route likes = (Request req, Response res) -> {
+		
+		try (AutocloseableDb db = new AutocloseableDb()) {
+			
+			Apartment apartment = Apartment.findById(Integer.parseInt(req.params("id")));
+			long id = (long) apartment.getId();
+			
+			if(req.session().attribute("currentUser") != null) {
+				User currentUser = req.session().attribute("currentUser");
+				ApartmentsUsers au = new ApartmentsUsers();
+				au.add(currentUser);
+				au.add(apartment);
+				au.saveIt();	
+				
+//				Map<String, Object> model = new HashMap<String, Object>();
+//				model.put("apartmentLikes", au)
+				}
+			
+				res.redirect("/apartments/" + id);
+			}
+		
+//			return MustacheRenderer.getInstance().render("apartment/index.html", model);
+			return "/";
+		
 	};
 }

@@ -27,10 +27,16 @@ body {
   <dd>{{ apartment.numberOfBathrooms }}</dd>
   <dt>Square footage</dt>
   <dd>{{ apartment.squareFootage }}</dd>
+  <dt>Likes</dt>
+  <dd>Insert here</dd>
 </dl>
 <div>
-		{{#currentUser}}
-		
+
+{{#noUser}}
+<a href="/login?returnPath=/apartments/{{ apartment.id }}">Login to LIKE this apartment</a>
+{{/noUser}}
+
+		{{#currentUser}}		
 		
 		{{#isOwner}}	
 		
@@ -50,8 +56,13 @@ body {
 			{{/apartment.isActive}}
 			
 		{{/isOwner}}
-			
 		
+		{{^isOwner}}
+			<form action="/apartments/{{ apartment.id }}/likes" method="post">
+				<button>LIKE</button>
+			</form>		
+		{{/isOwner}}
+			
 		{{/currentUser}}
 </div>
 

@@ -11,6 +11,7 @@ import com.libertymutual.goforcode.spark.app.filters.SecurityFilters;
 import com.libertymutual.goforcode.spark.app.controllers.HomeController;
 import com.libertymutual.goforcode.spark.app.controllers.SessionController;
 import com.libertymutual.goforcode.spark.app.models.Apartment;
+import com.libertymutual.goforcode.spark.app.models.ApartmentsUsers;
 import com.libertymutual.goforcode.spark.app.models.User;
 import com.libertymutual.goforcode.spark.app.utilities.AutocloseableDb;
 
@@ -38,6 +39,13 @@ public class Application {
 			b.saveIt();
 			anya.add(b);
 			
+//			ApartmentsUsers.deleteAll();
+//			ApartmentsUsers au1 = new ApartmentsUsers();
+//			au1.saveIt();
+//			
+//			anya.add(au1);
+//			b.add(au1);
+			
 		}
 
 		path("/apartments", () -> {
@@ -59,7 +67,9 @@ public class Application {
 			
 			before("/:id/activations", SecurityFilters.isAuthenticated);
 			post("/:id/activations", ApartmentController.activations);
-			
+
+			before("/:id/likes", SecurityFilters.isAuthenticated);
+			post("/:id/likes", ApartmentController.likes);
 
 		});
 
