@@ -39,12 +39,12 @@ public class Application {
 			b.saveIt();
 			anya.add(b);
 			
-//			ApartmentsUsers.deleteAll();
+//			ApartmentsUsers.deleteAll();	
 //			ApartmentsUsers au1 = new ApartmentsUsers();
 //			au1.saveIt();
 //			
 //			anya.add(au1);
-//			b.add(au1);
+//			a.add(au1);
 			
 		}
 

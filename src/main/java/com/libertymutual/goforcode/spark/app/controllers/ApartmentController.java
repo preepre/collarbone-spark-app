@@ -27,15 +27,17 @@ public class ApartmentController {
 		try (AutocloseableDb db = new AutocloseableDb()) {
 			Apartment apartment = Apartment.findById(Integer.parseInt(req.params("id")));			
 			User currentUser = req.session().attribute("currentUser");
-		
+					
 			long userId = apartment.getUserId();
 								
-			boolean isOwner;			
+			boolean isOwner;
+			boolean isLikeable = true;
 			
 			Map<String, Object> model = new HashMap<String, Object>();
 			model.put("apartment", apartment);
 			model.put("currentUser", currentUser);
 			model.put("noUser", req.session().attribute("currentUser") == null);
+			
 			
 			if(currentUser != null && userId == (long) currentUser.getId()) {
 				isOwner = true;
@@ -44,6 +46,32 @@ public class ApartmentController {
 				isOwner = false;
 			}
 			model.put("isOwner", isOwner);
+			
+			List<ApartmentsUsers> likesList = ApartmentsUsers.where("apartment_id = ?", (long) apartment.getId());
+			model.put("likesCount", likesList.size());
+			
+			if(currentUser != null) {
+				for(ApartmentsUsers au : likesList) {
+					if(au.getUserId() == (long) currentUser.getId()) {
+						isLikeable = false; 
+					}
+				}
+			}
+			
+			model.put("isLikeable", isLikeable);
+			
+//			List<ApartmentsUsers> userLikedList = ApartmentsUsers.findBy
+//			
+//			if(likesList.where("user_id = ?", id)) {
+//					hasLiked = true;
+//				}
+//				else {
+//					hasLiked = false;
+//				}
+//			}
+			
+			
+//			if(req.session().attribute(""))
 			
 			return MustacheRenderer.getInstance().render("apartment/details.html", model);
 		}
@@ -162,19 +190,11 @@ public class ApartmentController {
 			
 			if(req.session().attribute("currentUser") != null) {
 				User currentUser = req.session().attribute("currentUser");
-				ApartmentsUsers au = new ApartmentsUsers();
-				au.add(currentUser);
-				au.add(apartment);
-				au.saveIt();	
-				
-//				Map<String, Object> model = new HashMap<String, Object>();
-//				model.put("apartmentLikes", au)
+				apartment.add(currentUser);
 				}
 			
 				res.redirect("/apartments/" + id);
 			}
-		
-//			return MustacheRenderer.getInstance().render("apartment/index.html", model);
 			return "/";
 		
 	};

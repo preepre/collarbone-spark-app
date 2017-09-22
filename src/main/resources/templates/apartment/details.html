@@ -28,7 +28,7 @@ body {
   <dt>Square footage</dt>
   <dd>{{ apartment.squareFootage }}</dd>
   <dt>Likes</dt>
-  <dd>Insert here</dd>
+  <dd>{{ likesCount }}</dd>
 </dl>
 <div>
 
@@ -58,9 +58,13 @@ body {
 		{{/isOwner}}
 		
 		{{^isOwner}}
-			<form action="/apartments/{{ apartment.id }}/likes" method="post">
-				<button>LIKE</button>
-			</form>		
+		
+			{{#isLikeable}}
+				<form action="/apartments/{{ apartment.id }}/likes" method="post">
+					<button>LIKE</button>
+				</form>		
+			{{/isLikeable}}
+			
 		{{/isOwner}}
 			
 		{{/currentUser}}
