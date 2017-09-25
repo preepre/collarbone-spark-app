@@ -115,8 +115,7 @@ public class ApartmentController {
 					Integer.parseInt(req.queryParams("rent")), Integer.parseInt(req.queryParams("number_of_bedrooms")),
 					Double.parseDouble(req.queryParams("number_of_bathrooms")),
 					Integer.parseInt(req.queryParams("square_footage")), req.queryParams("address"),
-					req.queryParams("city"), req.queryParams("state"), req.queryParams("zip_code"), 
-					Boolean.parseBoolean(req.queryParams("is_active")));
+					req.queryParams("city"), req.queryParams("state"), req.queryParams("zip_code"));
 
 			currentUser.add(apartment);
 			

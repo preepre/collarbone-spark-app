@@ -31,11 +31,11 @@ public class Application {
 			
 			
 			Apartment.deleteAll();
-			Apartment a = new Apartment(6200, 1, 0, 350,	 "123 Main St", "San Francisco", "CA", "95125", true);
+			Apartment a = new Apartment(6200, 1, 0, 350, "123 Main St", "San Francisco", "CA", "95125");
 			a.saveIt();
 			anya.add(a);
 			
-			Apartment b = new Apartment(1400, 5, 6, 4000, "123 Cowboy Way", "Houston", "CA", "77096", true);
+			Apartment b = new Apartment(1400, 5, 6, 4000, "123 Cowboy Way", "Houston", "CA", "77096");
 			b.saveIt();
 			anya.add(b);
 			
