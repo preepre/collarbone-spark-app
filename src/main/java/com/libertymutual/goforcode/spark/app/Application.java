@@ -39,12 +39,7 @@ public class Application {
 			b.saveIt();
 			anya.add(b);
 			
-//			ApartmentsUsers.deleteAll();	
-//			ApartmentsUsers au1 = new ApartmentsUsers();
-//			au1.saveIt();
-//			
-//			anya.add(au1);
-//			a.add(au1);
+			ApartmentsUsers.deleteAll();
 			
 		}
 
@@ -68,8 +63,8 @@ public class Application {
 			before("/:id/activations", SecurityFilters.isAuthenticated);
 			post("/:id/activations", ApartmentController.activations);
 
-			before("/:id/likes", SecurityFilters.isAuthenticated);
-			post("/:id/likes", ApartmentController.likes);
+			before("/:id/like", SecurityFilters.isAuthenticated);
+			post("/:id/like", ApartmentController.like);
 
 		});
 
@@ -81,9 +76,9 @@ public class Application {
 
 		post("/logout", SessionController.logout);
 
-		get("/signup", UserController.newForm);
+		get("/users/new", UserController.newForm);
 
-		post("/create", UserController.create);
+		post("/users", UserController.create);
 
 		path("/api", () -> {
 

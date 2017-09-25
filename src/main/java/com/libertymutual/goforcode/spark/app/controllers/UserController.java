@@ -35,8 +35,8 @@ public class UserController {
 		User user = new User(
 				req.queryParams("email"),
 				encryptedPassword,
-				req.queryParams("firstName"),
-				req.queryParams("lastName")
+				req.queryParams("first_name"),
+				req.queryParams("last_name")
 				
 				);
 		

@@ -15,10 +15,10 @@ body {
 
 <h1>Apartment</h1>
 
-<h2>Only ${{ apartment.rent }}</h2>
+<h2>Only ${{ apartment.rent }} per month</h2>
 <p>
   {{ apartment.address }}<br>
-  {{ apartment.city }}, {{ apartment.state }} {{ apartment.zipCode }}
+  {{ apartment.city }}, {{ apartment.state }} {{ apartment.zip }}
 </p>
 <dl>
   <dt>Number of bedrooms</dt>
@@ -40,9 +40,15 @@ body {
 		
 		{{#isOwner}}	
 		
+			Users who liked your apartment:
+			{{#users}} 
+			<li> {{ firstName }} </li>
+			{{/users}}
+			<br>
+		
 			{{#apartment.isActive}}
 			<form action="/apartments/{{ apartment.id }}/deactivations" method="post">
-				<button>deactivate</button>
+				<button>Deactivate listing</button>
 			</form>
 			<br>
 			{{/apartment.isActive}}
@@ -50,7 +56,7 @@ body {
 			
 			{{^apartment.isActive}}
 			<form action="/apartments/{{ apartment.id }}/activations" method="post">
-				<button>activate</button>
+				<button>Activate listing</button>
 			</form>
 			<br>
 			{{/apartment.isActive}}
@@ -60,8 +66,8 @@ body {
 		{{^isOwner}}
 		
 			{{#isLikeable}}
-				<form action="/apartments/{{ apartment.id }}/likes" method="post">
-					<button>LIKE</button>
+				<form action="/apartments/{{ apartment.id }}/like" method="post">
+					<button>Like this apartment</button>
 				</form>		
 			{{/isLikeable}}
 			

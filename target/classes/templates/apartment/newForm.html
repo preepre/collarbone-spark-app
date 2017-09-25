@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Create an apartment</title>
+<title>Add a listing</title>
 <style>
 body {
 	background-color: #f7e5ff;
@@ -13,7 +13,7 @@ body {
 
 {{> /common/_navigation }}
 
-<h2>Create an apartment</h2>
+<h2>Add a listing</h2>
 
 	<form method="post" action="/apartments">
 		<input type="number" required name="rent" placeholder="Rent">
@@ -25,8 +25,12 @@ body {
 		<input type="text" required name="state" placeholder="state">
 		<input type="text" required name="zip_code" placeholder="zip_code">
 		
-		<button>Create</button>
+		<button>Add listing</button>
 	</form>
+<br>
+
+<a href="/apartments/mine">Your listings</a>
+
 
 </body>
 </html>

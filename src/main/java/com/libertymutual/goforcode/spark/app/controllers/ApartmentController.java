@@ -50,6 +50,21 @@ public class ApartmentController {
 			List<ApartmentsUsers> likesList = ApartmentsUsers.where("apartment_id = ?", (long) apartment.getId());
 			model.put("likesCount", likesList.size());
 			
+			List<Long> listUserIds = new ArrayList<Long>();
+			List<User> users = new ArrayList<User>();
+			
+			if(likesList.size() > 0) {
+				for(ApartmentsUsers au : likesList) {	
+					listUserIds.add(au.getUserId());
+				}
+				
+				for(Long id : listUserIds){
+					User user = User.findById(id);
+					users.add(user);					
+				}
+			}
+			model.put("users", users);
+			
 			if(currentUser != null) {
 				for(ApartmentsUsers au : likesList) {
 					if(au.getUserId() == (long) currentUser.getId()) {
@@ -78,7 +93,12 @@ public class ApartmentController {
 	};
 
 	public static final Route newForm = (Request req, Response res) -> {
-		return MustacheRenderer.getInstance().render("apartment/newForm.html", null);
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("currentUser", req.session().attribute("currentUser"));
+		model.put("noUser", req.session().attribute("currentUser") == null);
+		
+		return MustacheRenderer.getInstance().render("apartment/newForm.html", model);
 
 	};
 
@@ -88,6 +108,7 @@ public class ApartmentController {
 			
 			User currentUser = req.session().attribute("currentUser");
 			long id = (long) currentUser.getId();
+			
 			
 			Apartment apartment = new Apartment(
 
@@ -181,7 +202,7 @@ public class ApartmentController {
 		}
 	};
 
-	public static final Route likes = (Request req, Response res) -> {
+	public static final Route like = (Request req, Response res) -> {
 		
 		try (AutocloseableDb db = new AutocloseableDb()) {
 			
