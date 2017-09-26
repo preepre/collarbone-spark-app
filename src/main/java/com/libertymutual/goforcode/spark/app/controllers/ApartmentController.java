@@ -120,7 +120,7 @@ public class ApartmentController {
 			currentUser.add(apartment);
 			
 			apartment.saveIt();
-			res.redirect("/");
+			res.redirect("/apartments/mine");
 			return "";
 		}
 	};
